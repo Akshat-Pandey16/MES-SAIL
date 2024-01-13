@@ -12,7 +12,7 @@ import 'package:mes_app/presentation/report_screen.dart';
 import 'package:mes_app/theme/app_decoration.dart';
 
 class CallSmsScreen extends StatefulWidget {
-  const CallSmsScreen({Key? key}) : super(key: key);
+  const CallSmsScreen({super.key});
 
   @override
   _CallSmsScreenState createState() => _CallSmsScreenState();

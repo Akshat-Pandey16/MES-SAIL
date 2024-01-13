@@ -5,7 +5,7 @@ import 'package:mes_app/core/utils/size_utils.dart';
 // ignore: must_be_immutable
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   CustomAppBar({
-    Key? key,
+    super.key,
     required this.height,
     this.styleType,
     this.leadingWidth,
@@ -13,9 +13,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.centerTitle,
     this.actions,
-  }) : super(
-          key: key,
-        );
+  });
 
   double height;
 

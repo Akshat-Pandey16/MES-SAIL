@@ -12,7 +12,7 @@ import 'package:mes_app/theme/app_decoration.dart';
 import 'package:mes_app/presentation/millscreenwidget.dart';
 
 class MillScreen extends StatefulWidget {
-  const MillScreen({Key? key}) : super(key: key);
+  const MillScreen({super.key});
 
   @override
   State<MillScreen> createState() => _MillScreenState();

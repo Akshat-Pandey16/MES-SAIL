@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ReportScreen extends StatefulWidget {
-  const ReportScreen({Key? key}) : super(key: key);
+  const ReportScreen({super.key});
 
   @override
   _ReportScreenState createState() => _ReportScreenState();
@@ -377,14 +377,14 @@ class CustomImageView extends StatelessWidget {
   final Alignment? alignment;
 
   const CustomImageView({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.height,
     required this.width,
     this.radius,
     this.margin,
     this.alignment,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

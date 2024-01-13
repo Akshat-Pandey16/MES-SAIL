@@ -11,12 +11,12 @@ import 'package:mes_app/theme/app_style.dart';
 
 class LandingPageItemWidget extends StatelessWidget {
   const LandingPageItemWidget({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.imagePath,
     required this.cardText,
     required this.backgroundColor,
-  }) : super(key: key);
+  });
 
   final VoidCallback? onTap;
   final String imagePath;
@@ -79,7 +79,7 @@ class LandingPageItemWidget extends StatelessWidget {
 }
 
 class LandingPageScreen extends StatelessWidget {
-  const LandingPageScreen({Key? key}) : super(key: key);
+  const LandingPageScreen({super.key});
 
   get StaggeredGridView => null;
 

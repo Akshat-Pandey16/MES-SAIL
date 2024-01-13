@@ -8,10 +8,10 @@ class MillScreenWidget extends StatelessWidget {
   final String production;
 
   const MillScreenWidget({
-    Key? key,
+    super.key,
     required this.mill,
     required this.production,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

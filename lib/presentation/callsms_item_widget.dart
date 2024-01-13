@@ -12,11 +12,11 @@ class CallsmsItemWidget extends StatelessWidget {
   final String phoneNumber;
 
   const CallsmsItemWidget({
-    Key? key,
+    super.key,
     required this.name,
     required this.position,
     required this.phoneNumber,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

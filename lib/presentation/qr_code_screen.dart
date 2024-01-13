@@ -18,7 +18,7 @@ import '../../widgets/custom_button.dart';
 void main() => runApp(const QrCodeScreen());
 
 class QrCodeScreen extends StatefulWidget {
-  const QrCodeScreen({Key? key}) : super(key: key);
+  const QrCodeScreen({super.key});
 
   @override
   QrCodeScreenState createState() => QrCodeScreenState();

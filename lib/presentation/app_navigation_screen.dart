@@ -6,7 +6,7 @@ import 'package:mes_app/theme/app_decoration.dart';
 import 'package:mes_app/theme/app_style.dart';
 
 class AppNavigationScreen extends StatelessWidget {
-  const AppNavigationScreen({Key? key}) : super(key: key);
+  const AppNavigationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
