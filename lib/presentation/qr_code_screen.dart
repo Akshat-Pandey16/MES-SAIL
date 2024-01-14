@@ -12,13 +12,12 @@ import 'package:mes_app/core/utils/image_constant.dart';
 import 'package:mes_app/core/utils/size_utils.dart';
 import 'package:mes_app/presentation/report_screen.dart';
 import 'package:mes_app/theme/app_decoration.dart';
-
 import '../../widgets/custom_button.dart';
 
 void main() => runApp(const QrCodeScreen());
 
 class QrCodeScreen extends StatefulWidget {
-  const QrCodeScreen({super.key});
+  const QrCodeScreen({super.key, Key? otherkey});
 
   @override
   QrCodeScreenState createState() => QrCodeScreenState();
@@ -26,12 +25,16 @@ class QrCodeScreen extends StatefulWidget {
 
 class QrCodeScreenState extends State<QrCodeScreen> {
   String _scanBarcode = '';
+
   Future<void> scanQR() async {
     String barcodeScanRes;
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.QR);
+        '#ff6666',
+        'Cancel',
+        true,
+        ScanMode.QR,
+      );
       debugPrint(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
@@ -46,15 +49,13 @@ class QrCodeScreenState extends State<QrCodeScreen> {
 
   Future<void> sendQRDataToServer() async {
     if (_scanBarcode.isNotEmpty) {
-      final url = Uri.parse(
-          '$apiUrl/qrdata'); // Replace with your Node.js server endpoint
+      final url = Uri.parse('$apiUrl/qrdata');
       final headers = {'Content-Type': 'application/json'};
       final body = json.encode({'data': _scanBarcode});
 
       try {
         final response = await http.post(url, headers: headers, body: body);
         if (response.statusCode == 200) {
-          // Successful request
           Fluttertoast.showToast(
             msg: 'QR Data sent successfully',
             toastLength: Toast.LENGTH_SHORT,
@@ -86,12 +87,11 @@ class QrCodeScreenState extends State<QrCodeScreen> {
       backgroundColor: ColorConstant.gray10001,
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
-        // Wrap the content with SingleChildScrollView
         child: Stack(
           children: [
             Positioned.fill(
               child: Image.asset(
-                'assets/images/background1.png', // Replace with your actual image path
+                'assets/images/background1.png',
                 fit: BoxFit.cover,
               ),
             ),
@@ -101,7 +101,7 @@ class QrCodeScreenState extends State<QrCodeScreen> {
                 left: 13,
                 top: 54,
                 right: 13,
-                bottom: 44,
+                bottom: 344,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -113,6 +113,7 @@ class QrCodeScreenState extends State<QrCodeScreen> {
                       right: 18,
                       bottom: 4,
                     ),
+                    margin: const EdgeInsets.only(bottom: 44),
                     decoration: AppDecoration.outlineBlack9003f.copyWith(
                       borderRadius: BorderRadiusStyle.roundedBorder32,
                     ),
@@ -204,7 +205,7 @@ class QrCodeScreenState extends State<QrCodeScreen> {
                             color: Colors.grey.withOpacity(0.3),
                             spreadRadius: -20,
                             blurRadius: 7,
-                            offset: const Offset(32, 35), // Modify this line
+                            offset: const Offset(32, 35),
                           ),
                         ],
                       ),

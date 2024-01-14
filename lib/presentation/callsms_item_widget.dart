@@ -11,8 +11,8 @@ class CallsmsItemWidget extends StatelessWidget {
   final String position;
   final String phoneNumber;
 
-  const CallsmsItemWidget({
-    super.key,
+  const CallsmsItemWidget({super.key, 
+    Key? otherkey,
     required this.name,
     required this.position,
     required this.phoneNumber,
@@ -26,14 +26,13 @@ class CallsmsItemWidget extends StatelessWidget {
         borderRadius: BorderRadiusStyle.roundedBorder22,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center, // Center vertically
         children: [
           SizedBox(
             width: getHorizontalSize(181),
             child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 19, left: 10), // Add top padding
+              padding: const EdgeInsets.only(top: 13, left: 10),
               child: RichText(
                 text: TextSpan(
                   children: [
@@ -61,44 +60,43 @@ class CallsmsItemWidget extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-              width:
-                  getHorizontalSize(10)), // Add spacing between text and icons
-          GestureDetector(
-            onTap: ()
-                // Handle call icon click here
-                async {
-              Uri phoneno = Uri.parse('tel:$phoneNumber');
-              if (await launchUrl(phoneno)) {
-                //dialer opened
-              } else {
-                //dailer is not opened
-              } // Replace PHONE_NUMBER with the desired phone number
-            },
-            child: CustomImageView(
-              imagePath: ImageConstant.imgCallicon1,
-              height: getVerticalSize(52),
-              width: getHorizontalSize(40),
-              radius: BorderRadius.circular(getHorizontalSize(11)),
-              margin: getMargin(top: 27, bottom: 14),
-            ),
-          ),
-          SizedBox(width: getHorizontalSize(12)), // Add spacing between icons
-          GestureDetector(
-            onTap: () async {
-              Uri phoneno = Uri.parse('sms:$phoneNumber');
-              if (await launchUrl(phoneno)) {
-                //dialer opened
-              } else {
-                //dailer is not opened
-              }
-            },
-            child: CustomImageView(
-              imagePath: ImageConstant.imgSms1,
-              height: getSize(52),
-              width: getSize(52),
-              margin: getMargin(top: 27, bottom: 4, right: 1),
-            ),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () async {
+                  Uri phoneUri = Uri.parse('tel:$phoneNumber');
+                  if (await launchUrl(phoneUri)) {
+                    // Dialer opened
+                  } else {
+                    // Dialer is not opened
+                  }
+                },
+                child: CustomImageView(
+                  imagePath: ImageConstant.imgCallicon1,
+                  height: getVerticalSize(52),
+                  width: getHorizontalSize(40),
+                  radius: BorderRadius.circular(getHorizontalSize(11)),
+                  margin: getMargin(top: 27, bottom: 14),
+                ),
+              ),
+              SizedBox(width: getHorizontalSize(12)), // Add spacing between icons
+              GestureDetector(
+                onTap: () async {
+                  Uri smsUri = Uri.parse('sms:$phoneNumber');
+                  if (await launchUrl(smsUri)) {
+                    // SMS app opened
+                  } else {
+                    // SMS app is not opened
+                  }
+                },
+                child: CustomImageView(
+                  imagePath: ImageConstant.imgSms1,
+                  height: getSize(52),
+                  width: getSize(52),
+                  margin: getMargin(top: 27, bottom: 4),
+                ),
+              ),
+            ],
           ),
         ],
       ),

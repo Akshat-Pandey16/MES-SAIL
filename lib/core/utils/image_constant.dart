@@ -30,4 +30,5 @@ class ImageConstant {
   static String imgSms1 = 'assets/images/img_sms1.png';
 
   static String imageNotFound = 'assets/images/image_not_found.png';
+
 }

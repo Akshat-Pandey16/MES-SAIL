@@ -57,27 +57,18 @@ class _ReportScreenState extends State<ReportScreen> {
     request.fields['location'] = locationController.text;
     request.fields['time'] = timeController.text;
 
-    try {
-      var response = await http.Response.fromStream(await request.send());
+    var response = await request.send();
 
-      if (response.statusCode == 200) {
-        Fluttertoast.showToast(
-          msg: 'Report uploaded successfully!',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.TOP,
-        );
-        Navigator.pop(context);
-      } else {
-        Fluttertoast.showToast(
-          msg: 'Failed to upload report!',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.TOP,
-        );
-      }
-    } catch (error) {
-      print('Error uploading image: $error');
+    if (response.statusCode == 200) {
       Fluttertoast.showToast(
-        msg: 'An error occurred while uploading report!',
+        msg: 'Report uploaded successfully!',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+      );
+      Navigator.pop(context);
+    } else {
+      Fluttertoast.showToast(
+        msg: 'Failed to upload report!',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP,
       );
