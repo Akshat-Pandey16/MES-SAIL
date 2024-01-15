@@ -168,3 +168,4 @@ async def post_qr_code_data(qr_code_data: QrCodeData):
     return {"message": "QR code data posted successfully"}
 
 
+    

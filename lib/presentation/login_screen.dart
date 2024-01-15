@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,7 +49,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isPasswordVisible = false;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _ipController = TextEditingController(); // New controller for IP
 
   @override
   void initState() {
@@ -61,7 +60,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
-    _ipController.dispose(); // Dispose the IP controller
     super.dispose();
   }
 
@@ -129,15 +127,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     isPasswordField: true,
                   ),
-                  buildInputField(
-                    ImageConstant.imgPngtreevector,
-                    "Enter IP",
-                    EdgeInsets.only(
-                      top: getVerticalSize(10),
-                      right: getHorizontalSize(2),
-                    ),
-                    isIPField: true,
-                  ),
                   CustomButton(
                     height: getVerticalSize(72),
                     text: "LOGIN",
@@ -161,14 +150,11 @@ class _LoginScreenState extends State<LoginScreen> {
     String hintText,
     EdgeInsets margin, {
     bool isPasswordField = false,
-    bool isIPField = false, // New flag for IP field
   }) {
     return Container(
       margin: margin,
       padding: EdgeInsets.fromLTRB(
-        isPasswordField || isIPField
-            ? getHorizontalSize(8)
-            : getHorizontalSize(16),
+        isPasswordField ? getHorizontalSize(8) : getHorizontalSize(16),
         getVerticalSize(15),
         getHorizontalSize(16),
         getVerticalSize(15),
@@ -194,11 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   : EdgeInsets.only(
                       left: getHorizontalSize(10), bottom: getVerticalSize(2)),
               child: TextField(
-                controller: isPasswordField
-                    ? _passwordController
-                    : isIPField
-                        ? _ipController
-                        : _usernameController,
+                controller:
+                    isPasswordField ? _passwordController : _usernameController,
                 obscureText: isPasswordField && !_isPasswordVisible,
                 decoration: InputDecoration.collapsed(
                   hintText: hintText,
@@ -219,11 +202,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
                 color: Colors.grey,
               ),
-            ),
-          if (isIPField)
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () => _showEditIPDialog(context),
             ),
         ],
       ),
@@ -266,10 +244,9 @@ class _LoginScreenState extends State<LoginScreen> {
     // Navigator.pushNamed(context, AppRoutes.landingPageScreen);
     final String username = _usernameController.text;
     final String password = _passwordController.text;
-    final String ip = _ipController.text; // Retrieve the entered IP
-    if (username.isNotEmpty && password.isNotEmpty && ip.isNotEmpty) {
-      // Update the API endpoint with the entered IP
-      final url = Uri.parse('http://$ip:8000/login');
+    if (username.isNotEmpty && password.isNotEmpty) {
+      // Replace the API endpoint with your own
+      final url = Uri.parse('$apiUrl/login');
 
       try {
         final response = await http.post(url,
@@ -312,7 +289,7 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Error'),
-            content: const Text('Please enter a username, password, and IP.'),
+            content: const Text('Please enter a username and password.'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -325,37 +302,5 @@ class _LoginScreenState extends State<LoginScreen> {
         },
       );
     }
-  }
-
-  void _showEditIPDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Edit IP Address'),
-          content: TextField(
-            controller: _ipController,
-            decoration: const InputDecoration(
-              hintText: 'Enter new IP address',
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                // Save the new IP address or perform any additional actions
-              },
-              child: const Text('Save'),
-            ),
-          ],
-        );
-      },
-    );
   }
 }
