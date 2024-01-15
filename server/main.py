@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import firebase_admin
 from firebase_admin import credentials, db
-from datetime import datetime
 
 app = FastAPI()
 
@@ -15,8 +14,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-cred = credentials.Certificate("firebase.json")
-firebase_admin.initialize_app(cred, {"databaseURL": "https://mes-app-9c6f4-default-rtdb.asia-southeast1.firebasedatabase.app/"})
+def initialize_firebase():
+    cred = credentials.Certificate("firebase.json")
+    firebase_admin.initialize_app(cred, {"databaseURL": "https://mes-app-9c6f4-default-rtdb.asia-southeast1.firebasedatabase.app/"})
+
 
 class LoginRequest(BaseModel):
     username: str
@@ -59,7 +60,7 @@ async def login(request: LoginRequest):
     ref = db.reference('users')
     result = ref.order_by_child('username').equal_to(request.username).get()
 
-    if result:
+    if result is not None:
         user = list(result.values())[0]
         if user['password'] == request.password:
             return {"message": "Login successful"}
@@ -72,7 +73,6 @@ async def post_user(user_data: UserData):
         "password": user_data.password
     })
     return {"message": "User added successfully"}
-
 
 @app.get('/mill_data')
 async def get_mill_data():
@@ -114,7 +114,7 @@ async def insert_qr_code_data(qr_code_data):
     ref = db.reference('qr_code_data')
     heat_no_exists = ref.order_by_child('heat_no').equal_to(qr_code_data['heat_no']).get()
 
-    if heat_no_exists:
+    if heat_no_exists is not None:
         raise HTTPException(status_code=400, detail="Heat No already exists in the database")
     ref.push(qr_code_data)
     return {"message": "QR data inserted successfully"}
@@ -125,7 +125,7 @@ async def upload_image(data: ImageUpload, file: UploadFile = File(...)):
         print(f"Received request with description: {data.description}, location: {data.location}, time: {data.time}")
         
         image_name = file.filename
-        image_data = file.file.read()
+        image_data = file.file.read().decode('utf-8')
 
         ref = db.reference('image_data')
         ref.push({
@@ -133,7 +133,7 @@ async def upload_image(data: ImageUpload, file: UploadFile = File(...)):
             "description": data.description,
             "location": data.location,
             "upload_time": data.time,
-            "image_data": image_data.decode('utf-8')
+            "image_data": image_data
         })
 
         return {"message": "Image uploaded successfully"}
@@ -168,4 +168,10 @@ async def post_qr_code_data(qr_code_data: QrCodeData):
     return {"message": "QR code data posted successfully"}
 
 
-    
+if __name__ == "__main__":
+    import uvicorn
+
+    # Initialize Firebase before starting the server
+    initialize_firebase()
+
+    uvicorn.run("main:app", host="0.0.0.0", port=6969, reload=True)
