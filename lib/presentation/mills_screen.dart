@@ -29,11 +29,11 @@ class _MillScreenState extends State<MillScreen> {
 
   Future<void> fetchTableData() async {
     try {
-      final response = await http.get(Uri.parse('$apiUrl/MILL_DATA'));
+      final response = await http.get(Uri.parse('$apiUrl/mill_data'));
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         setState(() {
-          _tableData = jsonData;
+          _tableData = jsonData.values.toList(); // Convert Map values to a List
         });
       } else {
         print('Failed to fetch table data. Error: ${response.statusCode}');

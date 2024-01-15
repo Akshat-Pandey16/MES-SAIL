@@ -51,8 +51,7 @@ class _ReportScreenState extends State<ReportScreen> {
     const url = '$apiUrl/upload';
 
     var request = http.MultipartRequest('POST', Uri.parse(url));
-    request.files
-        .add(await http.MultipartFile.fromPath('image', pickedImage!.path));
+    request.files.add(await http.MultipartFile.fromPath('image', pickedImage!.path));
     request.fields['description'] = groupsixteenController.text;
     request.fields['location'] = locationController.text;
     request.fields['time'] = timeController.text;
