@@ -36,10 +36,12 @@ class _MillScreenState extends State<MillScreen> {
       // Extract mill data from nested structure
       List<Map<String, dynamic>> extractedData = [];
       jsonData.forEach((key, value) {
-        extractedData.add({
-          'mill': value['millname'],
-          'production': value['production_today'].toString(),
-        });
+        if (value is Map<String, dynamic>) {
+          extractedData.add({
+            'mill': value['millname'] ?? 'N/A',
+            'production': value['production_today']?.toString() ?? 'N/A',
+          });
+        }
       });
 
       setState(() {
@@ -52,6 +54,7 @@ class _MillScreenState extends State<MillScreen> {
     print('Exception occurred while fetching table data: $e');
   }
 }
+
 
 
   @override
