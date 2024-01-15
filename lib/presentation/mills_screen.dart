@@ -28,20 +28,22 @@ class _MillScreenState extends State<MillScreen> {
   }
 
   Future<void> fetchTableData() async {
-    try {
-      final response = await http.get(Uri.parse('$apiUrl/mill_data'));
-      if (response.statusCode == 200) {
-        final jsonData = json.decode(response.body);
-        setState(() {
-          _tableData = jsonData.values.toList(); // Convert Map values to a List
-        });
-      } else {
-        print('Failed to fetch table data. Error: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Exception occurred while fetching table data: $e');
+  try {
+    final response = await http.get(Uri.parse('$apiUrl/mill_data'));
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      print('Fetched Mill Data: $jsonData');
+      setState(() {
+        _tableData = jsonData;
+      });
+    } else {
+      print('Failed to fetch table data. Error: ${response.statusCode}');
     }
+  } catch (e) {
+    print('Exception occurred while fetching table data: $e');
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
