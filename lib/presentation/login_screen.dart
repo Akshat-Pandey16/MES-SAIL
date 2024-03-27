@@ -1,5 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mes_app/apiurl.dart';
@@ -29,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         visualDensity: VisualDensity.standard,
+        useMaterial3: true, // Enable Material 3
       ),
       title: 'mes_app',
       debugShowCheckedModeBanner: false,
@@ -42,7 +41,7 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -71,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/images/backgroundlogin.png', // Replace with your actual image path
+              'assets/images/backgroundlogin.png', // Ensure this path is correct
               fit: BoxFit.cover,
             ),
           ),

@@ -17,7 +17,7 @@ import '../../widgets/custom_button.dart';
 void main() => runApp(const QrCodeScreen());
 
 class QrCodeScreen extends StatefulWidget {
-  const QrCodeScreen({super.key, Key? otherkey});
+  const QrCodeScreen({super.key});
 
   @override
   QrCodeScreenState createState() => QrCodeScreenState();
@@ -97,11 +97,9 @@ class QrCodeScreenState extends State<QrCodeScreen> {
             ),
             Container(
               width: double.maxFinite,
-              padding: getPadding(
-                left: 13,
-                top: 54,
-                right: 13,
-                bottom: 344,
+              padding: EdgeInsets.symmetric(
+                horizontal: getHorizontalSize(13),
+                vertical: getVerticalSize(54),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:mes_app/presentation/login_screen.dart'; // Update the import statement with the correct path to LoginPage
+import 'package:mes_app/presentation/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen>
     _animationController = AnimationController(
       vsync: this,
       duration:
-          const Duration(milliseconds: 1000), // Increase the animation duration
+          const Duration(milliseconds: 1000), 
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -62,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen>
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                    'assets/images/splash.png'), // Replace with the correct background image path
+                    'assets/images/splash.png'), 
                 fit: BoxFit.cover,
               ),
             ),

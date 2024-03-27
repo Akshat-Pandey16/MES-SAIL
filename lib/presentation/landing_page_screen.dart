@@ -45,14 +45,11 @@ class LandingPageItemWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              decoration: const BoxDecoration(),
-              child: CustomImageView(
-                imagePath: imagePath,
-                margin: const EdgeInsets.fromLTRB(1, 15, 1, 15),
+              margin: const EdgeInsets.fromLTRB(1, 15, 1, 15), // Corrected here
+              child: Image.asset(
+                imagePath,
                 height: getVerticalSize(149),
                 width: getHorizontalSize(130),
-                radius: BorderRadius.circular(getHorizontalSize(22)),
-                alignment: Alignment.center,
               ),
             ),
             const SizedBox(height: 3),
@@ -85,7 +82,7 @@ class LandingPageScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          Container(
+          Padding(
             padding: EdgeInsets.fromLTRB(
               14,
               MediaQuery.of(context).padding.top + 25,
