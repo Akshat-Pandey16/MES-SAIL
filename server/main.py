@@ -1,8 +1,9 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import firebase_admin
 from firebase_admin import credentials, db
+import base64
 
 app = FastAPI()
 
@@ -136,15 +137,24 @@ async def insert_qr_code_data(qr_code_data):
     return {"message": "QR data inserted successfully"}
 
 
-@app.post("/upload")
-async def upload_image(data: ImageUpload, file: UploadFile = File(...)):
+@app.post("/report")
+async def report(
+    description: str = Form(...),
+    location: str = Form(...),
+    time: str = Form(...),
+    file: UploadFile = File(...),
+):
+    data = ImageUpload(description=description, location=location, time=time)
     try:
         print(
             f"Received request with description: {data.description}, location: {data.location}, time: {data.time}"
         )
 
         image_name = file.filename
-        image_data = file.file.read()
+        image_data = await file.read()  # Make sure to await the read operation
+
+        # Encode the binary data to Base64 for storage
+        image_data_base64 = base64.b64encode(image_data).decode("utf-8")
 
         ref = db.reference("image_data")
         ref.push(
@@ -153,7 +163,7 @@ async def upload_image(data: ImageUpload, file: UploadFile = File(...)):
                 "description": data.description,
                 "location": data.location,
                 "upload_time": data.time,
-                "image_data": image_data.decode("utf-8"),
+                "image_data": image_data_base64,
             }
         )
 
